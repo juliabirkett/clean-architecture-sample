@@ -4,20 +4,17 @@ import domain.model.User.InvalidUser
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import validUser
 
 class UserTest {
 
     @Test
     fun `creates a user`() {
-        assertDoesNotThrow {
-            User(email = "l@a.b".toEmail(), password = "12345".toPassword(), name = "Luís", id = "id123".toUserId())
-        }
+        assertDoesNotThrow { validUser }
     }
 
     @Test
-    fun `throws validation exception`() {
-        assertThrows<InvalidUser> {
-            User(email = "l@a.b".toEmail(), password = "12345".toPassword(), name = "L", id = "id123".toUserId())
-        }
+    fun `do not create users with invalid names`() {
+        assertThrows<InvalidUser> { validUser.copy(name = "J") }
     }
 }
